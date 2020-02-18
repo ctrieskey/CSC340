@@ -2,6 +2,13 @@ package query;
 
 import java.time.LocalDateTime;
 
+/*
+ * This Query class holds the information about the car that is having issues. Eventually it will also 
+ * hold possible diagnoses.
+ * Last Updated: 2/17/2020
+ * @author Conner Trieskey
+ * 
+ */
 public class Query {
 
 	private String make, model, year;
