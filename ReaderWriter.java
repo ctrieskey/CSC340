@@ -3,8 +3,10 @@ package data;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import query.Query;
@@ -24,15 +26,34 @@ public class ReaderWriter {
 	private FileInputStream input;
 	private ObjectInputStream objectInput;
 	
+	private FileOutputStream output;
+	private ObjectOutputStream objectOutput;
+	
 	public ReaderWriter() {
 		loadDoc(this.queryDoc);
+	}
+	
+	private void createDoc(File _doc) {
+		try {
+			this.output = new FileOutputStream(_doc);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			this.objectOutput = new ObjectOutputStream(output);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void loadDoc(File _doc) {
 		try {
 			this.input = new FileInputStream(_doc);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			createDoc(_doc);
 			e.printStackTrace();
 		}
 
@@ -45,7 +66,12 @@ public class ReaderWriter {
 	}
 
 	public void writeQuery(Query _q) {
-		
+		try {
+			this.objectOutput.writeObject(_q);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public ArrayList<Query> readQueries() {
